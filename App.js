@@ -1,11 +1,4 @@
-import React,{useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity,Image ,Loader,ActivityIndicator } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
-//import { db, storage } from './src/config/firebase'
-//import {ref, uploadBytes, get, getDownloadURL} from 'firebase/storage';
-//import {doc, serverTimestamp} from 'firebase/firestore';
-//import { collection, addDoc } from "firebase/firestore"; 
+import React from 'react'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';

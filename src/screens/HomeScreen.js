@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity,Image ,Loader,ActivityIndicator } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { db, storage } from '../config/firebase';
@@ -60,7 +59,7 @@ const HomeScreen=({navigation})=>{
        {/* <Text style={styles.mainText}>SCODE NETWORK</Text> */}
        </View>
        <TouchableOpacity style={styles.button}
-        onPress={()=>buttonPressed()    }      
+        onPress={()=>buttonPressed() }      
        >           
        <Text style={styles.btnText}>Upload</Text>
        </TouchableOpacity>
@@ -79,48 +78,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   //  backgroundColor: "#a3d9cc",
-    backgroundColor:"#c6e6f5"
-  },
-  logo:{
-    width:158,
-    height:90,
-    marginLeft:13,
-    resizeMode:"stretch",
-    marginTop:50
+    backgroundColor:"#c6e6f5",
   },
   uploadBox:{
     marginTop:80,
    // backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems:"center",
+    justifyContent: "center",
 
   },
   uploadHeader:{
    // marginTop:140,
     backgroundColor: "black",
-   // alignItems: 'center',
-   // justifyContent: 'center',
+  alignItems:"center",
+  justifyContent:"center",
     width:"60%",
     aspectRatio:1,
-    borderRadius:100,
+    borderRadius:"100%",
     borderWidth:3,
     borderColor:"white"
   },
-  mainText: {
-    textAlign:"center",
-    fontWeight:"bold",
-    fontSize:20,
-   // padding:7,
-   // alignItems:"center",
-   // justifyContent:"center",
-    marginLeft:5,
-    paddingTop:"45",
-    marginTop:78,
-    color:"white"
+  logo:{
+    width:"68%",
+    aspectRatio:1,
+    //marginLeft:13,
+    resizeMode:"stretch",
+    //marginTop:50,
+   // paddingBottom:9,
+    justifyContent:"center",
+    alignItems:"center"
 
-    //color:"white",
-   // alignItems: 'center',
-  //  justifyContent: 'center',
   },
   button: {
     width:"70%",

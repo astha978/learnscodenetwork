@@ -1,67 +1,30 @@
+import React,{useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Image ,Loader,ActivityIndicator } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import { storage } from './src/config/firebase';
-import {ref, uploadBytes, get, getDownloadURL} from 'firebase/storage'
-import supportedCommands from 'react-native/Libraries/Components/TextInput/TextInputNativeCommands';
+//import { db, storage } from './src/config/firebase'
+//import {ref, uploadBytes, get, getDownloadURL} from 'firebase/storage';
+//import {doc, serverTimestamp} from 'firebase/firestore';
+//import { collection, addDoc } from "firebase/firestore"; 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/HomeScreen';
+import PdfListScreen from './src/screens/PdfListScreen';
+import particularPdf from './src/screens/particularPdf';
 
-export default function App() {
-  const buttonPressed = ()=>{
-    DocumentPicker.getDocumentAsync({type:"application/pdf"})
-    .then((value)=>{
-      const storageRef = ref(storage,"docs")
-     
-        uploadBytes(storageRef,value.uri).then(async(snapshot)=>{
-          const url = await getDownloadURL(storageRef)
-          console.log(url)
-        console.log(snapshot)
-      })
-    })
-  }
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-       <Text style={styles.mainText}>PDF UPLOADER</Text>
-       <TouchableOpacity style={styles.button}
-        onPress={()=>buttonPressed()    }      
-       >           
-       <Text style={styles.btnText}>Upload</Text>
-       </TouchableOpacity>
-
-
-    </View>
-  
+    <NavigationContainer>
+      <Stack.Navigator
+       initialRouteName="Home">
+        <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+        <Stack.Screen name="Pdf-List" component={PdfListScreen} />
+        <Stack.Screen name="Course-Pdf" component={particularPdf} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    width:"50%",
-    aspectRatio:1,
-    borderRadius:400,
-    backgroundColor: "#24a2d4",
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor:"black",
-   // borderRadius:10
-   marginTop:30
-  },
-  mainText: {
-    fontWeight:"bold",
-    fontSize:24,
-    //color:"white",
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btnText: {
-    fontWeight:"bold",
-    fontSize:24,
-    color:"white",
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+export default App;

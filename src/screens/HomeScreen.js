@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity,Image ,Loader,ActivityIndicator } from 'react-native';
+import { homeStylesheet, Text, View, TouchableOpacity,Image ,Loader,ActivityIndicator } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { db, storage } from '../config/firebase';
 import {ref, uploadBytes, get, getDownloadURL} from 'firebase/storage';
@@ -6,11 +6,14 @@ import {doc, serverTimestamp} from 'firebase/firestore';
 import { collection, addDoc } from "firebase/firestore"; 
 import React,{useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import homeStyles from '../styles/homeStyles';
 
 
 const Stack = createNativeStackNavigator();
 
 const HomeScreen=({navigation})=>{
+  const [category,setSelectedCategory] = useState(null)
   const [loading,setLoading] = useState(false)
   const buttonPressed = ()=>{
     DocumentPicker.getDocumentAsync({type:"application/pdf"})
@@ -49,98 +52,47 @@ const HomeScreen=({navigation})=>{
       }
   return (
     
-    <View style={styles.container}>    
-     <View style={styles.uploadBox}>
-     <View style={styles.uploadHeader}>
+    <View style={homeStyles.container}>    
+     <View style={homeStyles.uploadBox}>
+     <View style={homeStyles.uploadHeader}>
      <Image
-       style={styles.logo}
+       style={homeStyles.logo}
        source={require('../../assets/logo4.jpg')}
      />
-       {/* <Text style={styles.mainText}>SCODE NETWORK</Text> */}
+       {/* <Text style={homeStyles.mainText}>SCODE NETWORK</Text> */}
        </View>
-       <TouchableOpacity style={styles.button}
+       <AutocompleteDropdown
+          clearOnFocus={false}
+          closeOnBlur={true}
+          closeOnSubmit={false}
+          initialValue={{ id: '1' }} // or just '2'
+          onSelectItem={setSelectedCategory}
+         //  containerStyle={{width:"70%"}}
+          inputContainerStyle={homeStyles.inputContainer}
+          rightButtonsContainerStyle={{flexDirection:"row",alignItems:"center"}}
+
+         // suggestionsListContainerStyle={{maxHeight:50}}
+          dataSet={[
+            { id: '1', title: 'Default' },
+            { id: '2', title: 'Java' },
+            { id: '3', title: 'JavaScript' },
+            { id: '4', title: 'C' },
+            { id: '5', title: 'Cpp' },
+          ]}
+        />
+       <TouchableOpacity style={homeStyles.button}
         onPress={()=>buttonPressed() }      
        >           
-       <Text style={styles.btnText}>Upload</Text>
+       <Text style={homeStyles.btnText}>Upload</Text>
        </TouchableOpacity>
 
-       <TouchableOpacity style={styles.button2}
+       <TouchableOpacity style={homeStyles.button2}
         onPress={()=>navigation.navigate('Pdf-List') }      
        >           
-       <Text style={styles.btnText}>Pdf-List</Text>
+       <Text style={homeStyles.btnText}>Pdf-List</Text>
        </TouchableOpacity>
     </View>
   </View>
   );
 }
 export default HomeScreen
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  //  backgroundColor: "#a3d9cc",
-    backgroundColor:"#c6e6f5",
-  },
-  uploadBox:{
-    marginTop:80,
-   // backgroundColor: '#fff',
-    alignItems:"center",
-    justifyContent: "center",
-
-  },
-  uploadHeader:{
-   // marginTop:140,
-    backgroundColor: "black",
-  alignItems:"center",
-  justifyContent:"center",
-    width:"60%",
-    aspectRatio:1,
-    borderRadius:"100%",
-    borderWidth:3,
-    borderColor:"white"
-  },
-  logo:{
-    width:"68%",
-    aspectRatio:1,
-    //marginLeft:13,
-    resizeMode:"stretch",
-    //marginTop:50,
-   // paddingBottom:9,
-    justifyContent:"center",
-    alignItems:"center"
-
-  },
-  button: {
-    width:"70%",
-    height:60,
-    borderRadius:10,
-    backgroundColor: "#6413b0",
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor:"black",
-    // borderRadius:10
-    marginTop:60,
-    borderWidth:2,
-    borderColor:"white"
-  },
-  button2: {
-    width:"70%",
-    height:50,
-    borderRadius:10,
-    backgroundColor: "#5fde81",
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor:"black",
-    // borderRadius:10
-    marginTop:30,
-    borderWidth:2,
-    borderColor:"white"
-  },
-
-  btnText: {
-    fontWeight:"bold",
-    fontSize:22,
-    color:"white",
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

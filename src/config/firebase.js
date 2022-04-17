@@ -4,7 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import {getFirestore} from '@firebase/firestore'
 import {getStorage} from '@firebase/storage'
 import { getAuth} from "firebase/auth";
-import HomeScreen from "../screens/HomeScreen";
+import courseList from "../screens/courseList";
 
 
 const firebaseConfig = {
@@ -19,10 +19,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(HomeScreen);   
-const db = getFirestore(HomeScreen);
-const storage = getStorage(HomeScreen);
-const auth = getAuth(HomeScreen);
+const analytics = getAnalytics(courseList);   
+const db = getFirestore(courseList);
+const storage = getStorage(courseList);
+const auth = getAuth(courseList);
 
 export {db,storage,auth}
   

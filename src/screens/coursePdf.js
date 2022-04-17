@@ -1,20 +1,24 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View,FlatList, TouchableOpacity} from 'react-native'
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
-
-const PdfListScreen = ({navigation}) => {
-     // const [pdf, setPdf] = ("");
+const coursePdf = ({navigation}) => {
   const DATA = [
-    {id:'1', name:"Ethical Hacking"},
-    {id:'2', name:"Java Script"},
-    {id:'3', name:"Python"},
-    {id:'4', name:"C Programming"},
-    {id:'5', name:"C++ Programming"},
-    {id:'6', name:"HTML"},
-    {id:'7', name:"PHP"},
-
+    {id:'1', name:"OOPs Concept"},
+    {id:'2', name:"Class"},
+    {id:'3', name:"Object"},
+    {id:'4', name:"Variable"},
+    {id:'5', name:"Data Types"},
+    {id:'6', name:"Data Abstraction"},
+    {id:'7', name:"Inheritence"},
+    {id:'8', name:"Data Encapsulation"},
+    {id:'9', name:"Polymorphism"},
+    {id:'10', name:"Method & Method Passing"},
+    {id:'2', name:"Integer"},
+    {id:'3', name:"Floating Point "},
+    {id:'4', name:"Array"},
+    {id:'2', name:"Character"},
+    {id:'3', name:"String"},
+    {id:'4', name:"File System"},
 
  ]
  const renderItem = ({item})=>{
@@ -47,7 +51,7 @@ const PdfListScreen = ({navigation}) => {
 
  );
 }
-export default PdfListScreen
+export default coursePdf
 
 
 const styles = StyleSheet.create({
@@ -116,3 +120,22 @@ const styles = StyleSheet.create({
      
    }
 })
+
+//export default PdfList
+
+// const styles = StyleSheet.create({
+// Container:{
+//     flex:1,
+//     alignItems:"center",
+//     justifyContent:"center",
+//     backgroundColor: "#a3d9cc",
+//     },
+// HeaderText:{
+// //alignItems:"center",
+// //justifyContent:"center",
+
+// marginTop:300,
+
+// },
+
+// })

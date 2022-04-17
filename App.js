@@ -2,8 +2,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
-import PdfListScreen from './src/screens/PdfListScreen';
-import particularPdf from './src/screens/particularPdf';
+import coursePdf from './src/screens/coursePdf';
+import courseList from './src/screens/courseList';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,8 +13,8 @@ function App() {
       <Stack.Navigator
        initialRouteName="Home">
         <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
-        <Stack.Screen name="Pdf-List" component={PdfListScreen} />
-        <Stack.Screen name="Course-Pdf" component={particularPdf} />
+        <Stack.Screen name="Course-List" component={courseList} />
+        <Stack.Screen name="Course-Pdf" component={coursePdf} />
       </Stack.Navigator>
     </NavigationContainer>
   );

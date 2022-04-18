@@ -39,7 +39,7 @@ const homeStyles = StyleSheet.create({
     button: {
       width:"90%",
       aspectRatio:5,
-      borderRadius:30,
+      borderRadius:40,
       backgroundColor: "#6413b0",
       alignItems: 'center',
       justifyContent: 'center',

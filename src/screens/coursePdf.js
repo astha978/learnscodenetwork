@@ -1,34 +1,44 @@
 import { StyleSheet, Text, View,FlatList, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { collection, doc, getDocs, query, where } from 'firebase/firestore'
+import * as Linking from 'expo-linking'
+import { db } from '../config/firebase'
 
-const coursePdf = ({navigation}) => {
-  const DATA = [
-    {id:'1', name:"OOPs Concept"},
-    {id:'2', name:"Class"},
-    {id:'3', name:"Object"},
-    {id:'4', name:"Variable"},
-    {id:'5', name:"Data Types"},
-    {id:'6', name:"Data Abstraction"},
-    {id:'7', name:"Inheritence"},
-    {id:'8', name:"Data Encapsulation"},
-    {id:'9', name:"Polymorphism"},
-    {id:'10', name:"Method & Method Passing"},
-    {id:'2', name:"Integer"},
-    {id:'3', name:"Floating Point "},
-    {id:'4', name:"Array"},
-    {id:'2', name:"Character"},
-    {id:'3', name:"String"},
-    {id:'4', name:"File System"},
-
- ]
+const pdfListScreen = (props) => {
+  const {navigation,route} = props
+  const {id} = route.params
+  const [data,setData] = useState([])
+  useEffect(()=>{
+    const pdfRef = collection(db,"PdfDocs")
+    const q = query(pdfRef,where("courseId","==",id))
+     async function fetchData () {
+       try {
+        const data = await getDocs(q)
+        setData(data.docs.map((doc)=>({...doc.data()})))
+       } catch (error) {
+         console.log(error)
+       }
+     }
+     fetchData()
+   
+  },[])
  const renderItem = ({item})=>{
  return(
    <View style={styles.pdfList}> 
-   <TouchableOpacity onPress={()=>navigation.navigate('Course-Pdf') } >
+   <TouchableOpacity onPress={()=>Linking.openURL(item.url) } >
    <Text style={styles.pdfText}>{item.name}</Text> 
    </TouchableOpacity> 
    </View>
  )}
+ if(data.length==0)
+ {
+   return(
+     
+    <View style={[styles.container,{justifyContent:"center",alignItems:"center"}]}>
+      <Text style={{fontWeight:"bold",color:"white",fontSize:30}}>No Results Found</Text>
+    </View>
+   )
+ }
  return (
    <View style={styles.container}> 
    {/* <View style={styles.container2}>
@@ -38,10 +48,10 @@ const coursePdf = ({navigation}) => {
      /> 
      <Text style={styles.headerText}>PDF Viewer</Text>
    
-   </View> */}
+   </View>  */}
      
      <FlatList
-     data= {DATA}
+     data= {data}
      keyExtractor={ (item) => {item.id}}
      renderItem={renderItem}
      //contentContainerStyle={{flex:1,backgroundColor:"red"}}
@@ -51,7 +61,7 @@ const coursePdf = ({navigation}) => {
 
  );
 }
-export default coursePdf
+export default pdfListScreen
 
 
 const styles = StyleSheet.create({

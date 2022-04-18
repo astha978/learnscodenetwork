@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image,Loader, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View,Alert, FlatList, TouchableOpacity, Image,Loader, ActivityIndicator } from 'react-native'
 import React, {useState} from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import { db, storage } from '../config/firebase';
 import {ref, uploadBytes, get, getDownloadURL} from 'firebase/storage';
-import {doc, serverTimestamp} from 'firebase/firestore';
+import {addDoc, collection, doc, serverTimestamp,setDoc} from 'firebase/firestore';
 
 const courseList= ({navigation}) => {
   const [category,setSelectedCategory] = useState(null)
   const [loading,setLoading] = useState(false)
 
-  const buttonPressed = ()=>{
+  const buttonPressed = (id)=>{
       DocumentPicker.getDocumentAsync({type:"application/pdf"})
       .then((value)=>{
         const storageRef = ref(storage,`/docs/${value.name}`)
@@ -19,22 +19,29 @@ const courseList= ({navigation}) => {
             const data ={
               url:url,
               date:serverTimestamp(),
-              name:value.name
+              name:value.name,
+              courseId:id,
             }
-            const docRef = collection(db,"PdfDocs")
+            const docRef = doc(db,"PdfDocs",value.name)
             try {
-                await addDoc(docRef,data)
+                await setDoc(docRef,data)
             } catch (error) {
                 console.log(error)
             }
             setLoading(false)
-          
-        }).catch((error)=>{
+            Alert.alert(
+              "SUCCESS",
+              "Pdf Has Been Successfully Uploaded",
+            )
+        })
+      
+        .catch((error)=>{
           console.log(error)
           setLoading(false)
         })
       })
-  }//ye yha close hona chahiye function
+     
+  }
       if(loading){
         return(
           <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
@@ -43,32 +50,35 @@ const courseList= ({navigation}) => {
         )
           }
 
-
+          
   const DATA = [
     {id:'1', name:"Ethical Hacking"},
     {id:'2', name:"Java Script"},
     {id:'3', name:"Python"},
     {id:'4', name:"C Programming"},
     {id:'5', name:"C++ Programming"},
-    {id:'6', name:"HTML"},
+    {id:'6', name:"Security Analyst"},
     {id:'7', name:"PHP"},
+    {id:'8', name:"Digital Marketing"},
+    {id:'9', name:"Java"},
+    {id:'10',name:"Web Development"},
 
  ]
  const renderItem = ({item})=>{
  return(
-  <View>
+  <View style={{paddingHorizontal:2,marginVertical:20}}>
    <View style={styles.pdfList}> 
    <Text style={styles.pdfText}>{item.name}</Text>
    
     </View>
     <View style={styles.addBox}>
     <View style={styles.addBtn}> 
-    <TouchableOpacity onPress={()=>navigation.navigate('Course-Pdf') } >
+    <TouchableOpacity onPress={()=>navigation.navigate('Course-Pdf',{id:item.id}) } >
     <Text style={styles.btnText}>show pdf</Text>
     </TouchableOpacity> 
     </View>
     <View style={styles.addBtn}> 
-    <TouchableOpacity onPress={()=>buttonPressed()} >
+    <TouchableOpacity onPress={()=>buttonPressed(item.id)} >
     <Text style={styles.btnText}>add pdf</Text>
     </TouchableOpacity> 
     </View>
@@ -105,6 +115,8 @@ const styles = StyleSheet.create({
     flex:1,
    // backgroundColor:"#f5e7d0",
    backgroundColor: "#dae4ed",
+   padding:10
+  
   },
   container2:{
     flexDirection:"row",
@@ -117,8 +129,8 @@ const styles = StyleSheet.create({
    height:60,
    width:80,
    // aspectRatio:1,
-    marginLeft:10,
-    marginVertical:10,
+  //  marginLeft:10,
+   // marginVertical:10,
     resizeMode:"stretch"
   },
   headerText:{
@@ -127,7 +139,7 @@ const styles = StyleSheet.create({
     borderColor:"white",
     fontWeight:"bold",
      marginLeft:10,
-     marginTop:20,
+     //marginTop:20,
   //   borderWidth:"1px",
   //   borderColor:"black"
      
@@ -147,10 +159,10 @@ const styles = StyleSheet.create({
     backgroundColor:"#3b70cc",
   // backgroundColor: "#5fde81",
     borderColor:"black",
-    marginVertical:2,
+   // marginVertical:2,
     flex:1,
-    marginTop:8,
-    borderRadius:20,
+   // marginTop:8,
+    borderRadius:10,
     justifyContent:"center",
     alignItems:"center",     
    },

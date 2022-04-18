@@ -5,8 +5,6 @@ import {getFirestore} from '@firebase/firestore'
 import {getStorage} from '@firebase/storage'
 import { getAuth} from "firebase/auth";
 import courseList from "../screens/courseList";
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyDdA1uEQfkMX-2a8BfRQuRREcUTbahcZqY",
   authDomain: "learningscodenetwork.firebaseapp.com",
@@ -19,10 +17,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(courseList);   
-const db = getFirestore(courseList);
-const storage = getStorage(courseList);
-const auth = getAuth(courseList);
+const analytics = getAnalytics(app);   
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
 
 export {db,storage,auth}
   
